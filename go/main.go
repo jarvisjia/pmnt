@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"githugithub.com/jarvisjia/pmnt/go/task1"
-	"githugithub.com/jarvisjia/pmnt/go/task2"
+	"github.com/jarvisjia/pmnt/go/task1"
+	"github.com/jarvisjia/pmnt/go/task2"
 )
 
 func main() {
@@ -12,5 +12,5 @@ func main() {
 	task1.Task1()
 
 	fmt.Println("==========Task2==================")
-	// task2.Task2()
+	task2.Task2()
 }
