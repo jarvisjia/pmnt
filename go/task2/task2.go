@@ -221,7 +221,7 @@ func atomicOp() {
 			defer wg.Done()
 			j := 0
 			for ; j < 1000; j++ {
-				atomic.AndInt64(&num, 1)
+				atomic.AddInt64(&num, 1)
 			}
 			fmt.Println("Thread", i, "add", j)
 		}(i)
