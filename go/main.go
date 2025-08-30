@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 
+	"github.com/jarvisjia/pmnt/go/task1"
+	"github.com/jarvisjia/pmnt/go/task2"
 	"github.com/jarvisjia/pmnt/go/task3"
 )
 

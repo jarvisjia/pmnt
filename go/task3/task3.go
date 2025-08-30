@@ -80,13 +80,13 @@ type Transaction struct {
 func transfer(db *gorm.DB, fAccId uint, tAccId uint, amount float64) {
 	tx := db.Begin()
 	var f, t Account
-	fRes := db.First(&f, fAccId) //主键查询
+	fRes := tx.First(&f, fAccId) //主键查询
 	if fRes.Error != nil {
 		fmt.Println("FromAccountId no exists.")
 		tx.Rollback()
 		return
 	}
-	tRes := db.First(&t, tAccId) //主键查询
+	tRes := tx.First(&t, tAccId) //主键查询
 	if tRes.Error != nil {
 		fmt.Println("toAccountId no exists.")
 		tx.Rollback()
@@ -99,18 +99,18 @@ func transfer(db *gorm.DB, fAccId uint, tAccId uint, amount float64) {
 	}
 	f.Balance -= amount
 	t.Balance += amount
-	updateFRes := db.Model(&Account{}).Where("id=?", fAccId).Update("balance", f.Balance)
+	updateFRes := tx.Model(&Account{}).Where("id=?", fAccId).Update("balance", f.Balance)
 	if updateFRes.Error != nil {
 		tx.Rollback()
 		return
 	}
-	updateTRes := db.Model(&Account{}).Where("id=?", tAccId).Update("balance", t.Balance)
+	updateTRes := tx.Model(&Account{}).Where("id=?", tAccId).Update("balance", t.Balance)
 	if updateTRes.Error != nil {
 		tx.Rollback()
 		return
 	}
 	trans := Transaction{FromAccountId: fAccId, ToAccountId: tAccId, Amount: amount}
-	createRes := db.Create(&trans)
+	createRes := tx.Create(&trans)
 	if createRes.Error != nil {
 		tx.Rollback()
 		return
