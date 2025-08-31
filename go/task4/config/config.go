@@ -1,8 +1,9 @@
-package task3
+package config
 
 import (
 	"fmt"
 
+	"github.com/jarvisjia/pmnt/go/task4/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -14,7 +15,7 @@ func DbConnet() *gorm.DB {
 	password := "123456" //密码
 	host := "127.0.0.1"  //数据库地址，可以是Ip或者域名
 	port := 3306         //数据库端口
-	dbname := "pp"       //数据库名
+	dbname := "task4"    //数据库名
 	timeout := "10s"     //连接超时，10秒
 
 	//拼接下dsn参数, dsn格式可以参考上面的语法，这里使用Sprintf动态拼接dsn参数，因为一般数据库连接参数，我们都是保存在配置文件里面，需要从配置文件加载参数，然后拼接dsn。
@@ -26,4 +27,9 @@ func DbConnet() *gorm.DB {
 		panic("连接数据库失败, error=" + err.Error())
 	}
 	return db
+}
+
+func InitDb(db *gorm.DB) {
+	fmt.Println("Initializing database...")
+	db.AutoMigrate(&model.User{}, &model.Post{}, &model.Comment{})
 }
